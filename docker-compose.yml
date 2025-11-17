@@ -1,0 +1,17 @@
+services:
+    angular-app:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        container_name: app-biblioteca_angular
+        ports:
+            - "${APP_EXTERNAL_PORT}:80"
+        restart: unless-stopped
+        networks:
+            - biblioteca-app-angular-network
+        environment:
+            - NODE_ENV=production
+
+networks:
+    biblioteca-app-angular-network:
+        driver: bridge
