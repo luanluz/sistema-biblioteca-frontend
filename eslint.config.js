@@ -77,6 +77,7 @@ module.exports = tseslint.config(
             '@angular-eslint/directive-class-suffix': ['error', { suffixes: ['Directive'] }],
             '@angular-eslint/no-empty-lifecycle-method': 'warn',
             '@angular-eslint/contextual-lifecycle': 'warn',
+            '@angular-eslint/prefer-inject': 'off',
 
             // Import Sorting
             'import/order': [
