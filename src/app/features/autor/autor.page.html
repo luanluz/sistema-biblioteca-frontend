@@ -1,0 +1,76 @@
+<div class="bg-white border border-gray-200 rounded-lg">
+    <div class="pt-4 px-4">
+        <p-toolbar class="mb-6">
+            <ng-template #start>
+                <h5 class="m-0">Gerenciar Autores</h5>
+            </ng-template>
+            <ng-template #end>
+                <p-button label="Novo" icon="pi pi-plus" class="mr-2" (onClick)="openNew()"/>
+            </ng-template>
+        </p-toolbar>
+    </div>
+
+    <div class="bg-white border border-gray-200 rounded-lg mx-4 mb-4">
+        <p-table
+            [value]="autores"
+            [rows]="rows"
+            [paginator]="true"
+            [rowsPerPageOptions]="[10, 20, 50, 100]"
+            [totalRecords]="totalRecords"
+            [tableStyle]="{ 'min-width': '50rem' }"
+            [rowHover]="true"
+            dataKey="codigo"
+            currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} autores"
+            [showCurrentPageReport]="true"
+            [loading]="loading"
+            (onPage)="onPageChange($event)"
+            [lazy]="true"
+        >
+            <ng-template #header>
+                <tr>
+                    <th>Código</th>
+                    <th>Nome</th>
+                    <th>Ações</th>
+                </tr>
+            </ng-template>
+            <ng-template #body let-autor>
+                <tr>
+                    <td>{{ autor.codigo }}</td>
+                    <td>{{ autor.nome }}</td>
+                    <td>
+                        <p-buttongroup>
+                            <p-button
+                                icon="pi pi-pencil"
+                                (click)="editAutor(autor)"
+                                severity="secondary"
+                            />
+                            <p-button
+                                icon="pi pi-eye"
+                                (click)="viewAutor(autor)"
+                                severity="secondary"
+                            />
+                            <p-button
+                                icon="pi pi-trash"
+                                severity="contrast"
+                                (click)="deleteAutor(autor)"
+                            />
+                        </p-buttongroup>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+
+    <app-autor-form
+        [(visible)]="formDrawerVisible"
+        [autorCodigo]="selectedAutorCodigo"
+        (eventEmitterSave)="onSaveSuccess()"
+    />
+
+    <app-autor-view
+        [(visible)]="viewDrawerVisible"
+        [autorCodigo]="viewAutorCodigo"
+    />
+
+    <p-confirmDialog [style]="{ width: '450px', maxWidth: '100vw' }"/>
+</div>
