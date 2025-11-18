@@ -10,7 +10,7 @@ export interface BaseServiceConfig {
     apiBase?: string;
 }
 
-export abstract class BaseRestService<T extends BaseInterface> {
+export abstract class BaseRestService<RESPONSE extends BaseInterface, REQUEST> {
     protected readonly baseUrl: string;
     protected readonly endpoint: string;
 
@@ -22,7 +22,7 @@ export abstract class BaseRestService<T extends BaseInterface> {
         this.baseUrl = config.apiBase || environment.api.backend;
     }
 
-    findAll(params: PageableRequest = {}): Observable<PageResponse<T>> {
+    findAll(params: PageableRequest = {}): Observable<PageResponse<RESPONSE>> {
         const { page = 0, size = 20, sort } = params;
 
         const validatedPage = Math.max(0, page);
@@ -36,21 +36,21 @@ export abstract class BaseRestService<T extends BaseInterface> {
             httpParams = httpParams.set('sort', `${sort.field},${sort.direction}`);
         }
 
-        return this.http.get<PageResponse<T>>(`${this.baseUrl}${this.endpoint}`, {
+        return this.http.get<PageResponse<RESPONSE>>(`${this.baseUrl}${this.endpoint}`, {
             params: httpParams,
         });
     }
 
-    findById(id: number): Observable<T> {
-        return this.http.get<T>(`${this.baseUrl}${this.endpoint}/${id}`);
+    findById(id: number): Observable<RESPONSE> {
+        return this.http.get<RESPONSE>(`${this.baseUrl}${this.endpoint}/${id}`);
     }
 
-    create(entity: Partial<T>): Observable<T> {
-        return this.http.post<T>(`${this.baseUrl}${this.endpoint}`, entity);
+    create(entity: Partial<REQUEST>): Observable<RESPONSE> {
+        return this.http.post<RESPONSE>(`${this.baseUrl}${this.endpoint}`, entity);
     }
 
-    update(id: number, entity: Partial<T>): Observable<T> {
-        return this.http.put<T>(`${this.baseUrl}${this.endpoint}/${id}`, entity);
+    update(id: number, entity: Partial<REQUEST>): Observable<RESPONSE> {
+        return this.http.put<RESPONSE>(`${this.baseUrl}${this.endpoint}/${id}`, entity);
     }
 
     delete(id: number): Observable<void> {
