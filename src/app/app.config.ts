@@ -7,6 +7,7 @@ import {
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideRouter, TitleStrategy, withInMemoryScrolling } from '@angular/router';
 import Lara from '@primeng/themes/lara';
+import { provideToastr } from 'ngx-toastr';
 import { providePrimeNG } from 'primeng/config';
 
 import { TemplatePageTitleStrategy } from '@core/config/template-page-title.strategy';
@@ -21,6 +22,19 @@ export const appConfig: ApplicationConfig = {
         provideRouter(routes),
 
         provideAnimations(),
+
+        provideToastr({
+            timeOut: 5000,
+            positionClass: 'toast-top-right',
+            preventDuplicates: true,
+            closeButton: true,
+            progressBar: true,
+            progressAnimation: 'increasing',
+            newestOnTop: true,
+            tapToDismiss: true,
+            maxOpened: 5,
+            autoDismiss: true,
+        }),
 
         providePrimeNG({
             theme: {
