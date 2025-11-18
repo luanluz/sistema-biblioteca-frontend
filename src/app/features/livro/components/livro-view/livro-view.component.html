@@ -1,0 +1,87 @@
+<p-drawer [(visible)]="visible" [style]="{ width: '600px', maxWidth: '100vw' }" position="right" (onHide)="hideDrawer()">
+    <ng-template #header>
+        <div class="flex items-center gap-2">
+            <span class="font-bold">Detalhes do Livro</span>
+        </div>
+    </ng-template>
+
+    @if (loading) {
+        <div class="flex items-center justify-center h-full">
+            <p-progress-spinner ariaLabel="loading" />
+        </div>
+    } @else if (livro) {
+        <div class="flex flex-col gap-6">
+            <div class="grid grid-cols-12 gap-8">
+                <div class="col-span-12">
+                    <label class="block font-bold mb-2 text-gray-600" for="codigo">
+                        Código
+                    </label>
+                    <p class="text-lg" id="codigo">{{ livro.codigo }}</p>
+                </div>
+
+                <div class="col-span-12">
+                    <label class="block font-bold mb-2 text-gray-600" for="titulo">
+                        Título
+                    </label>
+                    <p class="text-lg" id="titulo">{{ livro.titulo }}</p>
+                </div>
+
+                <div class="col-span-12">
+                    <label class="block font-bold mb-2 text-gray-600" for="editora">
+                        Editora
+                    </label>
+                    <p id="editora">{{ livro.editora }}</p>
+                </div>
+
+                <div class="col-span-4">
+                    <label class="block font-bold mb-2 text-gray-600" for="edicao">
+                        Edição
+                    </label>
+                    <p id="edicao">{{ livro.edicao }}</p>
+                </div>
+
+                <div class="col-span-4">
+                    <label class="block font-bold mb-2 text-gray-600" for="anoPublicacao">
+                        Ano de Publicação
+                    </label>
+                    <p id="anoPublicacao">{{ livro.anoPublicacao }}</p>
+                </div>
+
+                <div class="col-span-4">
+                    <label class="block font-bold mb-2 text-gray-600" for="valor">
+                        Valor
+                    </label>
+                    <p class="text-lg font-semibold text-green-600" id="valor">
+                        {{ livro.valorEmCentavos / 100 | currency: 'BRL' }}
+                    </p>
+                </div>
+            </div>
+
+            @if (livro.autores && livro.autores.length > 0) {
+                <div>
+                    <label class="block font-bold mb-2 text-gray-600" for="autores">
+                        Autores
+                    </label>
+                    <div class="flex flex-wrap gap-2" id="autores">
+                        @for (autor of livro.autores; track autor.codigo) {
+                            <p-chip [label]="autor.nome" />
+                        }
+                    </div>
+                </div>
+            }
+
+            @if (livro.assuntos && livro.assuntos.length > 0) {
+                <div>
+                    <label class="block font-bold mb-2 text-gray-600" for="assuntos">
+                        Assuntos
+                    </label>
+                    <div class="flex flex-wrap gap-2" id="assuntos">
+                        @for (assunto of livro.assuntos; track assunto.codigo) {
+                            <p-chip [label]="assunto.descricao" />
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</p-drawer>

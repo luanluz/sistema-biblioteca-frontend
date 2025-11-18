@@ -1,0 +1,119 @@
+<p-drawer [(visible)]="visible" [style]="{ width: '600px', maxWidth: '100vw' }" position="right" (onHide)="hideDrawer()">
+    <ng-template #header>
+        <div class="flex items-center gap-2">
+            <span class="font-bold">{{ isEditMode ? 'Editar Livro' : 'Novo Livro' }}</span>
+        </div>
+    </ng-template>
+
+    @if (loading) {
+        <div class="flex items-center justify-center h-full">
+            <p-progress-spinner ariaLabel="loading" />
+        </div>
+    } @else {
+        <div class="flex flex-col gap-6">
+            <div>
+                <label for="titulo" class="block font-bold mb-3">Título</label>
+                <input
+                    type="text"
+                    pInputText
+                    id="titulo"
+                    [(ngModel)]="livro.titulo"
+                    required
+                    fluid
+                />
+            </div>
+
+            <div class="grid grid-cols-12 gap-4">
+                <div class="col-span-8">
+                    <label for="editora" class="block font-bold mb-3">Editora</label>
+                    <input
+                        type="text"
+                        pInputText
+                        id="editora"
+                        [(ngModel)]="livro.editora"
+                        required
+                        fluid
+                    />
+                </div>
+                <div class="col-span-4">
+                    <label for="edicao" class="block font-bold mb-3">Edição</label>
+                    <p-inputnumber
+                        id="edicao"
+                        [(ngModel)]="livro.edicao"
+                        fluid>
+                    </p-inputnumber>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-12 gap-4">
+                <div class="col-span-6">
+                    <label for="anoPublicacao" class="block font-bold mb-3">Ano de Publicação</label>
+                    <p-datepicker
+                        [(ngModel)]="anoPublicacao"
+                        id="anoPublicacao"
+                        view="year"
+                        dateFormat="yy"
+                        fluid
+                        appendTo="body"
+                    >
+                    </p-datepicker>
+                </div>
+                <div class="col-span-6">
+                    <label for="valor" class="block font-bold mb-3">Valor</label>
+                    <p-inputnumber
+                        id="valor"
+                        [(ngModel)]="valorEmReais"
+                        [showButtons]="true"
+                        inputId="stacked"
+                        mode="currency"
+                        currency="BRL"
+                        locale="pt-BR"
+                        fluid>
+                    </p-inputnumber>
+                </div>
+            </div>
+
+            <div>
+                <label for="autores" class="block font-bold mb-3">Autores</label>
+                <p-multiselect
+                    [(ngModel)]="livro.autores"
+                    [options]="autoresDisponiveis"
+                    appendTo="body"
+                    optionLabel="nome"
+                    placeholder="Selecione os autores"
+                    fluid>
+                </p-multiselect>
+            </div>
+
+            <div>
+                <label for="assuntos" class="block font-bold mb-3">Assuntos</label>
+                <p-multiselect
+                    [(ngModel)]="livro.assuntos"
+                    [options]="assuntosDisponiveis"
+                    appendTo="body"
+                    optionLabel="descricao"
+                    placeholder="Selecione os assuntos"
+                    fluid>
+                </p-multiselect>
+            </div>
+        </div>
+    }
+
+    <ng-template #footer>
+        <div class="flex items-center justify-between gap-4">
+            <p-button
+                label="Cancelar"
+                icon="pi pi-times"
+                outlined
+                (click)="hideDrawer()"
+                [disabled]="loading"
+            />
+            <p-button
+                label="Salvar"
+                icon="pi pi-check"
+                (click)="saveLivro()"
+                [loading]="loading"
+            />
+        </div>
+    </ng-template>
+</p-drawer>
