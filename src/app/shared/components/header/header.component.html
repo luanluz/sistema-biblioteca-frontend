@@ -11,10 +11,24 @@
             <ng-template #end>
                 <div class="flex items-center gap-2">
                     <p-buttongroup>
-                        <p-button label="PDF" icon="pi pi-file-pdf" size="small" severity="secondary"
-                                  pTooltip="Exportar relatório em PDF" tooltipPosition="top"/>
-                        <p-button label="Excel" icon="pi pi-file-excel" size="small" severity="secondary"
-                                  pTooltip="Exportar relatório em Excel" tooltipPosition="top"/>
+                        <p-button
+                            label="PDF"
+                            icon="pi pi-file-pdf"
+                            size="small"
+                            severity="secondary"
+                            pTooltip="Exportar relatório em PDF"
+                            tooltipPosition="top"
+                            (click)="gerarRelatorioPDF()"
+                        />
+                        <p-button
+                            label="Excel"
+                            icon="pi pi-file-excel"
+                            size="small"
+                            severity="secondary"
+                            pTooltip="Exportar relatório em Excel"
+                            tooltipPosition="top"
+                            (click)="gerarRelatorioExcel()"
+                        />
                     </p-buttongroup>
                 </div>
             </ng-template>
