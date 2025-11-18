@@ -1,0 +1,23 @@
+<header class="sticky top-0 z-50 bg-gray-50">
+    <div class="bg-sky-700">
+        <div class="container mx-auto px-8 py-4">
+            <h1 class="text-white text-xl font-bold flex items-center gap-3">
+                {{ appTitle }}
+            </h1>
+        </div>
+    </div>
+    <div class="container mx-auto">
+        <p-menubar [model]="items">
+            <ng-template #end>
+                <div class="flex items-center gap-2">
+                    <p-buttongroup>
+                        <p-button label="PDF" icon="pi pi-file-pdf" size="small" severity="secondary"
+                                  pTooltip="Exportar relatório em PDF" tooltipPosition="top"/>
+                        <p-button label="Excel" icon="pi pi-file-excel" size="small" severity="secondary"
+                                  pTooltip="Exportar relatório em Excel" tooltipPosition="top"/>
+                    </p-buttongroup>
+                </div>
+            </ng-template>
+        </p-menubar>
+    </div>
+</header>
