@@ -1,110 +1,93 @@
 import { inject, Injectable } from '@angular/core';
-import { MessageService } from 'primeng/api';
+import { ToastrService } from 'ngx-toastr';
 
 export interface ToastConfig {
-    severity?: 'success' | 'info' | 'warn' | 'error';
-    summary?: string;
-    detail: string;
-    life?: number;
-    sticky?: boolean;
-    closable?: boolean;
-    key?: string;
-    styleClass?: string;
-    contentStyleClass?: string;
+    title?: string;
+    message: string;
+    timeOut?: number;
+    extendedTimeOut?: number;
+    closeButton?: boolean;
+    progressBar?: boolean;
+    positionClass?: string;
+    enableHtml?: boolean;
 }
 
 @Injectable({
     providedIn: 'root',
 })
 export class ToastService {
-    private messageService: MessageService = inject(MessageService);
-
     private defaultConfig: Partial<ToastConfig> = {
-        life: 5000,
-        closable: true,
-        sticky: false,
+        timeOut: 5000,
+        extendedTimeOut: 2000,
+        closeButton: true,
+        progressBar: true,
+        positionClass: 'toast-top-right',
+        enableHtml: false,
     };
 
+    private toastr: ToastrService = inject(ToastrService);
+
     success(config: ToastConfig | string): void {
-        const options = this.buildOptions(config, 'success');
-        this.messageService.add({
-            severity: options.severity,
-            summary: options.summary || 'Sucesso',
-            detail: options.detail,
-            life: options.life,
-            sticky: options.sticky,
-            closable: options.closable,
-            key: options.key,
-            styleClass: options.styleClass,
-            contentStyleClass: options.contentStyleClass,
+        const options = this.buildOptions(config);
+        this.toastr.success(options.message, options.title, {
+            timeOut: options.timeOut,
+            extendedTimeOut: options.extendedTimeOut,
+            closeButton: options.closeButton,
+            progressBar: options.progressBar,
+            positionClass: options.positionClass,
+            enableHtml: options.enableHtml,
+            toastClass: 'ngx-toastr success-toast',
         });
     }
 
     error(config: ToastConfig | string): void {
-        const options = this.buildOptions(config, 'error');
-        this.messageService.add({
-            severity: options.severity,
-            summary: options.summary || 'Erro',
-            detail: options.detail,
-            life: options.life,
-            sticky: options.sticky,
-            closable: options.closable,
-            key: options.key,
-            styleClass: options.styleClass,
-            contentStyleClass: options.contentStyleClass,
+        const options = this.buildOptions(config);
+        this.toastr.error(options.message, options.title, {
+            timeOut: options.timeOut,
+            extendedTimeOut: options.extendedTimeOut,
+            closeButton: options.closeButton,
+            progressBar: options.progressBar,
+            positionClass: options.positionClass,
+            enableHtml: options.enableHtml,
+            toastClass: 'ngx-toastr error-toast',
         });
     }
 
     warning(config: ToastConfig | string): void {
-        const options = this.buildOptions(config, 'warn');
-        this.messageService.add({
-            severity: options.severity,
-            summary: options.summary || 'Atenção',
-            detail: options.detail,
-            life: options.life,
-            sticky: options.sticky,
-            closable: options.closable,
-            key: options.key,
-            styleClass: options.styleClass,
-            contentStyleClass: options.contentStyleClass,
+        const options = this.buildOptions(config);
+        this.toastr.warning(options.message, options.title, {
+            timeOut: options.timeOut,
+            extendedTimeOut: options.extendedTimeOut,
+            closeButton: options.closeButton,
+            progressBar: options.progressBar,
+            positionClass: options.positionClass,
+            enableHtml: options.enableHtml,
+            toastClass: 'ngx-toastr warning-toast',
         });
     }
 
     info(config: ToastConfig | string): void {
-        const options = this.buildOptions(config, 'info');
-        this.messageService.add({
-            severity: options.severity,
-            summary: options.summary || 'Informação',
-            detail: options.detail,
-            life: options.life,
-            sticky: options.sticky,
-            closable: options.closable,
-            key: options.key,
-            styleClass: options.styleClass,
-            contentStyleClass: options.contentStyleClass,
+        const options = this.buildOptions(config);
+        this.toastr.info(options.message, options.title, {
+            timeOut: options.timeOut,
+            extendedTimeOut: options.extendedTimeOut,
+            closeButton: options.closeButton,
+            progressBar: options.progressBar,
+            positionClass: options.positionClass,
+            enableHtml: options.enableHtml,
+            toastClass: 'ngx-toastr info-toast',
         });
     }
 
-    clear(key?: string): void {
-        this.messageService.clear(key);
+    clear(): void {
+        this.toastr.clear();
     }
 
-    private buildOptions(
-        config: ToastConfig | string,
-        severity: 'success' | 'info' | 'warn' | 'error',
-    ): ToastConfig {
+    private buildOptions(config: ToastConfig | string): ToastConfig {
         if (typeof config === 'string') {
-            return {
-                ...this.defaultConfig,
-                severity,
-                detail: config,
-            } as ToastConfig;
+            return { ...this.defaultConfig, message: config } as ToastConfig;
         }
 
-        return {
-            ...this.defaultConfig,
-            severity,
-            ...config,
-        } as ToastConfig;
+        return { ...this.defaultConfig, ...config } as ToastConfig;
     }
 }
