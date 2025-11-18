@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { MenuItem } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { ButtonGroupModule } from 'primeng/buttongroup';
@@ -17,19 +18,24 @@ export class AppHeaderComponent implements OnInit {
     items: MenuItem[] | undefined;
     appTitle = environment.app.name;
 
+    constructor(private router: Router) {}
+
     ngOnInit() {
         this.items = [
             {
                 label: 'Livros',
                 icon: 'pi pi-book',
+                command: () => this.router.navigate(['/livros']),
             },
             {
                 label: 'Assuntos',
                 icon: 'pi pi-bookmark',
+                command: () => this.router.navigate(['/assuntos']),
             },
             {
                 label: 'Autores',
                 icon: 'pi pi-users',
+                command: () => this.router.navigate(['/autores']),
             },
         ];
     }

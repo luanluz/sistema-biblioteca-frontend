@@ -3,12 +3,12 @@ import { Injectable } from '@angular/core';
 
 import { BaseRestService } from '@core/services/base-rest.service';
 import { Assunto } from '@domain/model/assunto.interface';
+import { AssuntoRequest } from '@domain/model/request/assunto-request.interface';
 
 @Injectable({
     providedIn: 'root',
 })
-export class AssuntoService extends BaseRestService<Assunto> {
-    // eslint-disable-next-line @angular-eslint/prefer-inject
+export class AssuntoService extends BaseRestService<Assunto, AssuntoRequest> {
     constructor(http: HttpClient) {
         super(http, { endpoint: '/assunto' });
     }

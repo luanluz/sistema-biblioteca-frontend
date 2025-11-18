@@ -47,15 +47,13 @@ export class ErrorInterceptor implements HttpInterceptor {
         const validationError = error.error as ValidationError;
 
         if (validationError?.invalidFields && validationError.invalidFields.length > 0) {
-            const fieldErrors = validationError.invalidFields
-                .map((field) => `<strong>${field.field}:</strong> ${field.errorMessage}`)
-                .join('<br>');
-
-            this.toastService.error({
-                title: validationError.title || 'Erro de Validação',
-                message: `${validationError.detail || 'Corrija os campos abaixo:'}<br><br>${fieldErrors}`,
-                enableHtml: true,
-                timeOut: 8000,
+            validationError.invalidFields.forEach((field) => {
+                this.toastService.error({
+                    title: validationError.title || 'Erro de Validação',
+                    message: field.errorMessage,
+                    enableHtml: true,
+                    timeOut: 8000,
+                });
             });
 
             return;
