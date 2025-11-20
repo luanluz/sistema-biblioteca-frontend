@@ -1,15 +1,21 @@
 # Stage 1: Build da aplicação Angular
 FROM node:24-alpine AS build
 
+ARG NODE_ENV=production
+
 WORKDIR /app
 
 COPY package*.json ./
 
-RUN npm ci --silent
+RUN npm ci --include=dev --silent
 
 COPY . .
 
-RUN npm run build --prod
+RUN if [ "$NODE_ENV" = "development" ]; then \
+        npm run build:dev; \
+    else \
+        npm run build; \
+    fi
 
 # Stage 2: Servir com Nginx
 FROM nginx:alpine
