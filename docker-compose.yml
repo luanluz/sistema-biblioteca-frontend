@@ -3,6 +3,8 @@ services:
         build:
             context: .
             dockerfile: Dockerfile
+            args:
+                - NODE_ENV=${NODE_ENV:-production}
         container_name: app-biblioteca_angular
         ports:
             - "${APP_EXTERNAL_PORT}:80"
@@ -10,7 +12,7 @@ services:
         networks:
             - biblioteca-app-angular-network
         environment:
-            - NODE_ENV=production
+            - NODE_ENV=${NODE_ENV:-production}
 
 networks:
     biblioteca-app-angular-network:
